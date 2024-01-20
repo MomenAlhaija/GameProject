@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game.BL.Shared
+namespace Game.BL.DTO
 {
     public class GetCategoryDTO
     {
