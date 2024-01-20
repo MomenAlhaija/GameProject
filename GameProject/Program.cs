@@ -4,6 +4,7 @@ using Game.DL.Implement;
 using Game.DL.Interface;
 using Game.Domain.Data;
 using Microsoft.EntityFrameworkCore;
+using static System.Formats.Asn1.AsnWriter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(option=>option.UseSqlServer(
       builder.Configuration.GetConnectionString("MyConnection")
     ));
 builder.Services.AddTransient<ICategoryService,CategoryService>();
-builder.Services.AddTransient<ICategoryRepositry,CategoryRepositry>();  
+builder.Services.AddTransient<ICategoryRepositry,CategoryRepositry>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -32,6 +33,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Category}/{action=Index}/{id?}");
 
 app.Run();

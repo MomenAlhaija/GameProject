@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Category>
+@if(Model is null){
+    <p>
+        No Any Category To Display;
+    </p>
+}
+else{
+    @foreach(var item in Model)
+    {
+        <p>@item.Name</p>
+    }
+}

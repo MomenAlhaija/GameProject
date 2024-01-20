@@ -16,20 +16,15 @@ namespace Game.Domain.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>().HasData(new Category[]
-            {
-                new Category { Id = 1, Name = "Sports" },
-                new Category { Id = 2, Name = "Action" },
-                new Category { Id = 3, Name = "Adventure" },
-                new Category { Id = 4, Name = "Racing" },
-                new Category { Id = 5, Name = "Fighting" },
-                new Category { Id = 6, Name = "Film" }
-            });
+            
             base.OnModelCreating(modelBuilder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-2848GVF;Database=GameApp;Trusted_Connection=True;Integrated Security=true;Encrypt=False;");
+            }
             base.OnConfiguring(optionsBuilder);
         }
         public DbSet<Category> Categories { get; set; }

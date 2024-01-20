@@ -11,10 +11,11 @@ namespace GameProject.Controllers
         {
             _categoryService = categoryService;
         }
-        public IActionResult Index()
+        [Route("/")]
+        public async Task<IActionResult> Index()
         {
-            var categories=_categoryService.GetCategories();
-            return View(categories);
+            var categories=await _categoryService.GetCategories();
+            return View(categories?.AsEnumerable());
         }
     }
 }
