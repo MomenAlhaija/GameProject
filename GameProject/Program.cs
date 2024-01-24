@@ -3,6 +3,7 @@ using Game.BL.Interface;
 using Game.DL.Implement;
 using Game.DL.Interface;
 using Game.Domain.Data;
+using Game.Shared.EFRepositry;
 using Microsoft.EntityFrameworkCore;
 using static System.Formats.Asn1.AsnWriter;
 
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<AppDbContext>(option=>option.UseSqlServer(
     ));
 builder.Services.AddTransient<ICategoryService,CategoryService>();
 builder.Services.AddTransient<ICategoryRepositry,CategoryRepositry>();
+builder.Services.AddTransient<IEFRepositry,EFRepositry>();
+builder.Services.AddTransient<IDeviceRepositry,DeviceRepositry>();
+builder.Services.AddTransient<IDeviceService,DeviceRepositry>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

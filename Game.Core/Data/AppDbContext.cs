@@ -16,7 +16,6 @@ namespace Game.Domain.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
             base.OnModelCreating(modelBuilder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -28,5 +27,6 @@ namespace Game.Domain.Data
             base.OnConfiguring(optionsBuilder);
         }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Device> Devices { get; set; }
     }
 }

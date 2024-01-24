@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game.BL.DTO
 {
-    public class GetCategoryDTO
+    public class AddCategoryDTO
     {
         public string Name { get; set; }=string.Empty;
     }

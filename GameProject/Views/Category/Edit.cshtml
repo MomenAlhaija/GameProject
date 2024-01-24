@@ -1,0 +1,8 @@
+﻿@model ViewOrAddCategoryDTO
+@{
+    ViewData["Title"] = "Edit Category";
+}
+<form method="post">
+    <input type="text" placeholder="Please Enter Category Name" asp-for="Name" />
+    <button type="submit">Save</button>
+</form>

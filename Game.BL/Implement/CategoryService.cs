@@ -1,11 +1,7 @@
-﻿using Game.BL.Interface;
+﻿using Game.BL.DTO;
+using Game.BL.Interface;
 using Game.DL.Interface;
 using Game.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.BL.Implement
 {
@@ -17,9 +13,36 @@ namespace Game.BL.Implement
         {
             _categoryRepositry = categoryRepositry;  
         }
-        public Task<IQueryable<Category?>?> GetCategories()
+
+        public async Task AddCategory(AddCategoryDTO categoryDTO)
         {
-            return _categoryRepositry.GetCategoriesAsQueryable();
+           await _categoryRepositry.AddCategory(new Category { Name = categoryDTO.Name });
+        }
+
+        public async Task DeleteCategory(int id)
+        {
+            var category= await _categoryRepositry.GetCategoryById(id);
+            if (category is Category && category is not null)
+                await _categoryRepositry.DeleteCategory(category);
+            else
+                throw new Exception($"The Category With Id:{id} is not Found");
+        }
+
+        public async Task<IQueryable<ViewOrAddCategoryDTO?>?> GetCategories()
+        {
+            var categories=await _categoryRepositry.GetCategoriesAsQueryable();
+            return  categories.Select(c=>new ViewOrAddCategoryDTO {Id=c!.Id,Name=c!.Name }).AsQueryable();
+        }
+
+        public async Task<ViewOrAddCategoryDTO> GetCategoryById(int id)
+        {
+            var category=await  _categoryRepositry.GetCategoryById(id);
+            return new ViewOrAddCategoryDTO {Id=category.Id,Name=category.Name};
+        }
+
+        public async Task UpdateCategory(ViewOrAddCategoryDTO category)
+        {
+            await _categoryRepositry.UpdateCategory(new Category { Id=category.Id,Name=category.Name});
         }
     }
 }
