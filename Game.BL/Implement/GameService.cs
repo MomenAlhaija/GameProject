@@ -1,11 +1,11 @@
 ﻿using Game.BL.DTO;
-using Game.DL.Implement;
+using Game.BL.Interface;
 using Game.DL.Interface;
 using Game.Domain.Entity;
 using GameZone.Settings;
 using Microsoft.AspNetCore.Http;
 
-namespace GameZone.Services
+namespace Game.BL.Implement
 {
     public class GameService : IGameService
     {

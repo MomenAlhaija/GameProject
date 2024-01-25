@@ -1,14 +1,8 @@
 ﻿using Game.DL.Interface;
 using Game.Domain.Data;
-using Game.Domain.Entities;
+using Game.Domain.Entity;
 using Game.Shared.EFRepositry;
-using GameZone.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.DL.Implement
 {
