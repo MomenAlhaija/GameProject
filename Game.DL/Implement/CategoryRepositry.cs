@@ -1,13 +1,8 @@
 ﻿using Game.DL.Interface;
 using Game.Domain.Data;
-using Game.Domain.Entities;
 using Game.Shared.EFRepositry;
+using GameZone.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Game.DL.Implement
 {
@@ -33,12 +28,12 @@ namespace Game.DL.Implement
 
         public async Task<IQueryable<Category?>?> GetCategoriesAsQueryable()
         {
-            return  _context.Categories!.AsQueryable()??null;
+            return  _context.Categories!.AsNoTracking().AsQueryable()??null;
         }
 
         public async Task<Category> GetCategoryById(int id)
         {
-           var category=await _context.Categories.FirstOrDefaultAsync(x=>x.Id==id);
+           var category=await _context.Categories.AsNoTracking().FirstOrDefaultAsync(x=>x.Id==id);
             if (category is not null)
                 return category;
             else

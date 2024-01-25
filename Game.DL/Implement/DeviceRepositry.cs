@@ -2,6 +2,7 @@
 using Game.Domain.Data;
 using Game.Domain.Entities;
 using Game.Shared.EFRepositry;
+using GameZone.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,22 +16,22 @@ namespace Game.DL.Implement
     {
         private readonly IEFRepositry _EFRepositry;
         private readonly AppDbContext _context;
-        public DeviceRepositry(AppDbContext context)
-        {
-            _context = context;
-        }
-        public DeviceRepositry(IEFRepositry EFRepositry)
+        public DeviceRepositry(IEFRepositry EFRepositry, AppDbContext context)
         {
             _EFRepositry = EFRepositry;
+            _context = context;
+
         }
         public async Task AddDevice(Device device)
         {
             await _EFRepositry.Insert(device);
         }
 
+    
         public async Task DeleteDevice(int id)
         {
-            await _EFRepositry.Delete(id);
+            var device = await GetDeviceById(id);
+            await _EFRepositry.Delete(device);
         }
 
         public async Task<IQueryable<Device?>?> GetAllDevicesAsQueryable()

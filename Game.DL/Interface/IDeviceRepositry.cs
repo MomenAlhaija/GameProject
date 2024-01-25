@@ -1,4 +1,5 @@
 ﻿using Game.Domain.Entities;
+using GameZone.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -14,11 +14,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(option=>option.UseSqlServer(
       builder.Configuration.GetConnectionString("MyConnection")
     ));
+
+#region services
 builder.Services.AddTransient<ICategoryService,CategoryService>();
 builder.Services.AddTransient<ICategoryRepositry,CategoryRepositry>();
 builder.Services.AddTransient<IEFRepositry,EFRepositry>();
 builder.Services.AddTransient<IDeviceRepositry,DeviceRepositry>();
-builder.Services.AddTransient<IDeviceService,DeviceRepositry>();
+builder.Services.AddTransient<IDeviceService,DeviceService>();
+#endregion
+
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

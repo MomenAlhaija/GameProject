@@ -1,34 +1,47 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Game.BL.DTO;
+using Game.BL.Interface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GameProject.Controllers
 {
     public class DevicesController : Controller
     {
-        public IActionResult Index()
+        private readonly IDeviceService _deviceService;
+        public DevicesController(IDeviceService deviceService)
         {
-            return View();
+            _deviceService = deviceService;
+        }
+        public async Task<IActionResult> Index()
+        {
+            var model = await _deviceService.GetDevicesAsQueryable();
+            return View(model);
         }
         public IActionResult Add()
         {
-            return View();
+            var model = new DeviceDTO();
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Add(char c)
+        public async Task<IActionResult> Add(DeviceDTO device)
         {
-            return View();
+            await _deviceService.AddOrEditDevice(device);
+            return RedirectToAction(nameof(Index));
         }
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            var model=await _deviceService.GetDeviceById(id);   
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(char c)
+        public async Task<IActionResult> Edit(DeviceDTO device)
         {
-            return View();
+            await _deviceService.AddOrEditDevice(device);
+            return RedirectToAction(nameof(Index));
         }
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            await _deviceService.DeleteDevice(id);
+            return RedirectToAction(nameof(Index));
         }
 
     }

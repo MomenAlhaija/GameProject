@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using GameZone.Consts;
+using System.ComponentModel.DataAnnotations;
 
-namespace Game.Domain.Entities
+namespace GameZone.Models
 {
-    public class Category
+    public class Category:BaseEntity
     {
-        [Key]
-        public int Id { get; set; }
-        public string Name { get; set; }=string.Empty;
+        public ICollection<Game> Games { get; set; }=new List<Game>();
     }
 }

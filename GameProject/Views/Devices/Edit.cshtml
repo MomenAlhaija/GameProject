@@ -1,8 +1,12 @@
-﻿@model ViewOrAddCategoryDTO
+﻿@model DeviceDTO
 @{
-    ViewData["Title"] = "Edit Category";
+    ViewData["Title"] = "Add Category";
 }
 <form method="post">
-    <input type="text" placeholder="Please Enter Category Name" asp-for="Name" />
-    <button type="submit">Save</button>
+    <input type="text" placeholder="Please Enter Device Name" asp-for="Id" hidden />
+    <input type="text" placeholder="Please Enter Device Name" asp-for="Name" />
+    <input type="text" placeholder="Please Enter Description Name" asp-for="Description" />
+    <input type="text" placeholder="Please Enter Device Icon Code" asp-for="DeviceIcon" />
+    <script src="~/lib/font-awesome/js/fontawesome.min.js"></script>
+    <button type="submit">Save Changes</button>
 </form>

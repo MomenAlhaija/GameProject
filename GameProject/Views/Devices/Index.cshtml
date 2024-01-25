@@ -1,17 +1,29 @@
-﻿@model IEnumerable<ViewOrAddCategoryDTO>
+﻿@model IEnumerable<DeviceDTO>
 @if(Model is null){
     <p>
         No Any Category To Display;
     </p>
 }
 else{
-    @foreach(var item in Model)
-    {
-        <p>
-        @item.Name ||
-            <a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-            <a type="submit" asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-        </p>
-    }
+    <table>
+        <thead>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Device Icon</th>
+        </thead>
+        <tr>
+        @foreach (var item in Model)
+        {
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td><i class="@item.DeviceIcon me-2 fs-4"></i></td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>  
+        }
+        </tr>
+    </table>
+
 }
-<a asp-controller="Category" asp-action="Add">Add Category</a>
+<a asp-controller="Devices" asp-action="Add">Add Device</a>

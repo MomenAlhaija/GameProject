@@ -37,6 +37,28 @@ namespace Game.Domain.Migrations
 
                     b.ToTable("Categories");
                 });
+
+            modelBuilder.Entity("Game.Domain.Entities.Device", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DeviceIcon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Devices");
+                });
 #pragma warning restore 612, 618
         }
     }

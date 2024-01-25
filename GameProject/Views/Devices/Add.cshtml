@@ -1,8 +1,10 @@
-﻿@model AddCategoryDTO
+﻿@model DeviceDTO
 @{
     ViewData["Title"]= "Add Category";
 }
 <form method="post">
-    <input type="text" placeholder="Please Enter Category Name" asp-for="Name" />
+    <input type="text" placeholder="Please Enter Device Name" asp-for="Name" />
+    <input type="text" placeholder="Please Enter Description Name" asp-for="Description" />
+    <input type="text" placeholder="Please Enter Device Icon Code" asp-for="DeviceIcon" />
     <button type="submit">Add</button>
 </form>
