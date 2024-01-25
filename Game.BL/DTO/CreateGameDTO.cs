@@ -2,7 +2,7 @@
 using GameZone.Settings;
 using Microsoft.AspNetCore.Http;
 
-namespace GameZone.ViewModel
+namespace Game.BL.DTO
 {
     public class CreateGameDTO:GameDTO
     {

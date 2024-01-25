@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace GameZone.Models
+﻿namespace Game.Domain.Entity
 {
     public class GameDevice
     {

@@ -1,11 +1,11 @@
-﻿using GameZone.Consts;
+﻿using Game.Shared.Consts;
 using System.ComponentModel.DataAnnotations;
 
-namespace GameZone.Models
+namespace Game.Domain.Entity
 {
     public class Device:BaseEntity
     {
-        [MaxLength(GameZoneConsts.MaxDeviceIconLength)]
+        [MaxLength(GameConsts.MaxDeviceIconLength)]
         public string Icon { get; set; }=string.Empty;
     }
 }

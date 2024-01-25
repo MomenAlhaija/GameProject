@@ -1,21 +1,21 @@
 ﻿using Game.BL.DTO;
 using Game.DL.Implement;
 using Game.DL.Interface;
-using GameZone.Models;
+using Game.Domain.Entity;
 using GameZone.Settings;
+using Microsoft.AspNetCore.Http;
 
 namespace GameZone.Services
 {
     public class GameService : IGameService
     {
-        public readonly IGameRepositry _gameRepositry; 
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        public readonly IGameRepositry _gameRepositry;
+        public string FilePath { get; set; }
         private readonly string _imagePath;
-        public GameService(IGameRepositry gameRepositry, IWebHostEnvironment webHostEnvironment)
+        public GameService(IGameRepositry gameRepositry)
         {
             _gameRepositry = gameRepositry;
-            _webHostEnvironment = webHostEnvironment;
-            _imagePath = $"{_webHostEnvironment.WebRootPath}{FileSettings.FilePath}";
+            _imagePath = $"{FilePath}{FileSettings.FilePath}";
         }
 
         public async Task<GetGameDTO?> GetGame(int id)
@@ -36,10 +36,10 @@ namespace GameZone.Services
             };
         }
 
-        public IEnumerable<GetGameDTO> GetAllGames()
+        public async Task<IEnumerable<GetGameDTO>> GetAllGames()
         {
            
-            var games = await _gameRepositry.GetGamesAsQueryable();
+            var games =_gameRepositry.GetAllGames();
 
             List<GetGameDTO> getGameDTOs = games.Select(p => new GetGameDTO
             {
@@ -56,30 +56,26 @@ namespace GameZone.Services
             }).ToList();
 
             return getGameDTOs;
-            
-
         }
 
         public async Task GreateGame(CreateGameDTO input)
         {
             var coverName =await SaveCover(input.Cover);
-            Game game = new()
+            await _gameRepositry.AddGame(new Game.Domain.Entity.GameEntity
             {
-                Name=input.Name,
-                Description=input.Description,
-                CategoryId=input.CategoryId,
-                Cover=coverName,
-                Devices=input.SelectedDevices.Select(d=>new GameDevice { DeviceId=d}).ToList()
-            };
-            _context.Add(game);
-            _context.SaveChanges();
+                Name = input.Name,
+                Description = input.Description,
+                CategoryId = input.CategoryId,
+                Cover = coverName,
+                Devices = input.SelectedDevices.Select(d => new GameDevice { DeviceId = d }).ToList()
+            });
         }
 
-        public async Task EditGame(EditGameFormViewModel input)
+        public async Task EditGame(EditGameDTO input)
         {
-            var game = await _context.Games.Include(g=>g.Devices).ThenInclude(c=>c.Device).FirstOrDefaultAsync(x=>x.Id==input.Id);
-            if (game is null ) 
-                throw new Exception("Not Found The Game");
+            var game = await _gameRepositry.GetGameById(input.Id);
+            if (game is null) 
+                throw new Exception($"Not Found The Game With Id {input.Id}");
             game.Name = input.Name;
             game.Description=input.Description;
             game.Devices = input.SelectedDevices.Select(d=>new GameDevice() { DeviceId=d }).ToList();
@@ -87,9 +83,8 @@ namespace GameZone.Services
             var oldGameName=game.Cover;  
             if(input.Cover is not null)
                 game.Cover=await SaveCover(input.Cover);
-            _context.Update(game);
-            var rowsAffected= _context.SaveChanges();
-            if(rowsAffected>0 && input.Cover is not null)
+            bool isUpdate=await _gameRepositry.UpdateGame(game);
+            if(isUpdate && input.Cover is not null)
                 File.Delete(Path.Combine(_imagePath, oldGameName));
             else
                 File.Delete(Path.Combine(_imagePath, game.Cover));
@@ -99,14 +94,9 @@ namespace GameZone.Services
         public async Task<bool> DeleteGame(int id)
         {
             bool isDeleted = false;
-            var game = await _context.Games.FindAsync(id);
-            if (game is null)
-                return isDeleted;
-            _context.Games.Remove(game);
-            var affectedRows=_context.SaveChanges();
-            if (affectedRows > 0) {
-
-                isDeleted = true;
+            var game = await _gameRepositry.GetGameById(id);
+            isDeleted = _gameRepositry.DeleteGame(id).Result!.Value;
+            if (isDeleted) {
                 File.Delete(Path.Combine(_imagePath,game.Name));
             };
             return isDeleted;

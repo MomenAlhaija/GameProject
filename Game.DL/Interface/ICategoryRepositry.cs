@@ -1,4 +1,4 @@
-﻿using GameZone.Models;
+﻿using Game.Domain.Entity;
 
 namespace Game.DL.Interface
 {

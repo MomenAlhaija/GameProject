@@ -27,7 +27,6 @@ namespace Game.DL.Implement
             await _EFRepositry.Insert(device);
         }
 
-    
         public async Task DeleteDevice(int id)
         {
             var device = await GetDeviceById(id);
@@ -48,5 +47,6 @@ namespace Game.DL.Implement
         {
           await _EFRepositry.Update(device);
         }
+    
     }
 }

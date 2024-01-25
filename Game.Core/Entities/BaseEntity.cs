@@ -1,12 +1,12 @@
-﻿
+﻿using Game.Shared.Consts;
 using System.ComponentModel.DataAnnotations;
 
-namespace GameZone.Models
+namespace Game.Domain.Entity
 {
     public class BaseEntity
     {
         public int Id { get; set; }
-        [MaxLength(GameConst.MaxNameLength)]
+        [MaxLength(GameConsts.MaxNameLength)]
         public string Name { get; set; } = string.Empty;
     }
 }

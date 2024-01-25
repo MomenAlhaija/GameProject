@@ -1,8 +1,9 @@
 ﻿using Game.BL.DTO;
 using Game.BL.Interface;
 using Game.DL.Interface;
-using Game.Domain;
-using GameZone.Models;
+using Game.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
+using System.Web.Mvc;
 
 namespace Game.BL.Implement
 {
@@ -39,6 +40,16 @@ namespace Game.BL.Implement
         {
             var category=await  _categoryRepositry.GetCategoryById(id);
             return new ViewOrAddCategoryDTO {Id=category.Id,Name=category.Name};
+        }
+
+        public async Task<IEnumerable<SelectListItem>> GetSelectListCategories()
+        {
+            var categories = await _categoryRepositry.GetCategoriesAsQueryable();
+            return categories.Select(c => new SelectListItem()
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).AsNoTracking().OrderBy(c => c.Text).ToList();
         }
 
         public async Task UpdateCategory(ViewOrAddCategoryDTO category)

@@ -1,8 +1,9 @@
 ﻿using Game.BL.DTO;
 using Game.BL.Interface;
 using Game.DL.Interface;
-using GameZone.Models;
+using Game.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
+using System.Web.Mvc;
 
 namespace Game.BL.Implement
 {
@@ -62,6 +63,14 @@ namespace Game.BL.Implement
             }).AsNoTracking().AsQueryable();
         }
 
-      
+        public async Task<IEnumerable<SelectListItem>> GetSelectListDevices()
+        {
+            var devices =await _deviceRepositry.GetAllDevicesAsQueryable();
+            return devices.Select(c => new SelectListItem()
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).AsNoTracking().OrderBy(c => c.Text).ToList();
+        }
     }
 }

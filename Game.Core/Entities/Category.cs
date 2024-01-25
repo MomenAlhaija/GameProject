@@ -1,7 +1,4 @@
-﻿using GameZone.Consts;
-using System.ComponentModel.DataAnnotations;
-
-namespace GameZone.Models
+﻿namespace Game.Domain.Entity
 {
     public class Category:BaseEntity
     {

@@ -1,11 +1,12 @@
-﻿using GameZone.Services;
+﻿using Game.BL.DTO;
+using Game.BL.Interface;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GameZone.Controllers
+namespace GameProject.Controllers
 {
     public class GamesController : Controller
     {
-        private readonly ICategoryService _categoryService;
+        private readonly  ICategoryService _categoryService;
         private readonly IDeviceService _deviceService;
         private readonly IGameService _gameService;
         public GamesController(ICategoryService categoryService, IDeviceService deviceService, IGameService gameService)
@@ -22,22 +23,22 @@ namespace GameZone.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddGame()
+        public async Task<IActionResult> AddGame()
         {
-            CreateGameFormViewModel model = new()
+            CreateGameDTO model = new()
             {
-                Categories = _categoryService.GetSelectListCategories(),
-                Devices = _deviceService.GetSelectListDevices(),
+                Categories =await _categoryService.GetSelectListCategories(),
+                Devices =await _deviceService.GetSelectListDevices(),
             };
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> AddGame(CreateGameFormViewModel input)
+        public async Task<IActionResult> AddGame(CreateGameDTO input)
         {
             if (!ModelState.IsValid)
             {
-                input.Categories = _categoryService.GetSelectListCategories();
-                input.Devices= _deviceService.GetSelectListDevices();
+                input.Categories =await _categoryService.GetSelectListCategories();
+                input.Devices=await _deviceService.GetSelectListDevices();
                 return View(input);
             }
             await _gameService.GreateGame(input);
@@ -55,26 +56,26 @@ namespace GameZone.Controllers
             var game =await _gameService.GetGame(id);
             if (game is null)
                 throw new Exception("The Game Not Found");
-            EditGameFormViewModel viewModel = new EditGameFormViewModel()
+            EditGameDTO viewModel = new EditGameDTO()
             {
                 Id=id,
                 Name=game.Name,
                 Description=game.Description,
                 CategoryId=game.CategoryId,
-                SelectedDevices=game.Devices.Select(d=>d.DeviceId).ToList(),
-                Categories=_categoryService.GetSelectListCategories(),
-                Devices=_deviceService.GetSelectListDevices(),
+                SelectedDevices=game.Devices!.Select(d=>d.Id!.Value).ToList(),
+                Categories=await _categoryService.GetSelectListCategories(),
+                Devices= await _deviceService.GetSelectListDevices(),
                 CurrentCover=game.Cover,
             }; 
             return View(viewModel);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(EditGameFormViewModel input)
+        public async Task<IActionResult> Edit(EditGameDTO input)
         {
             if (!ModelState.IsValid)
             {
-                input.Categories = _categoryService.GetSelectListCategories();
-                input.Devices = _deviceService.GetSelectListDevices();
+                input.Categories = await _categoryService.GetSelectListCategories();
+                input.Devices = await _deviceService.GetSelectListDevices();
                 return View(input);
             }
             await _gameService.EditGame(input);

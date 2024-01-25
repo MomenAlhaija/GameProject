@@ -1,4 +1,5 @@
-﻿using Game.Domain.Entities;
+﻿
+using Game.Domain.Entity;
 using GameZone.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
@@ -17,7 +18,7 @@ namespace Game.Domain.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            modelBuilder.Entity<GameDevice>().HasKey(p => new { p.DeviceId, p.GameId });
             base.OnModelCreating(modelBuilder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,6 +31,7 @@ namespace Game.Domain.Data
         }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Device> Devices { get; set; }
-        public DbSet<Game.Domain.Game> Games { get; set; }  
+        public DbSet<GameEntity> Games { get; set; }  
+        public DbSet<GameDevice> GameDevices { get; set; }
     }
 }

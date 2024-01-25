@@ -1,7 +1,6 @@
 ﻿using Game.BL.DTO;
-using GameZone.ViewModel;
 
-namespace GameZone.Services
+namespace Game.BL.Interface
 {
     public interface IGameService
     {

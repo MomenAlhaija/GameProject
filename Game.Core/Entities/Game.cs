@@ -1,12 +1,11 @@
-﻿using GameZone.Consts;
+﻿using Game.Shared.Consts;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GameZone.Models
+namespace Game.Domain.Entity
 {
-    public class Game:BaseEntity
+    public class GameEntity:BaseEntity
     {
-        [MaxLength(GameC.MaxGameDescriptionLength)]
+        [MaxLength(GameConsts.MaxGameDescriptionLength)]
         public string Description { get; set; }= string.Empty;
         public string Cover { get; set; } = string.Empty;
         public int CategoryId { get; set; }
