@@ -1,5 +1,6 @@
 ﻿using GameZone.Attributes;
 using GameZone.Settings;
+using Microsoft.AspNetCore.Http;
 
 namespace GameZone.ViewModel
 {

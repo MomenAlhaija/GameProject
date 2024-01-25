@@ -1,7 +1,8 @@
 ﻿using Game.BL.DTO;
 using Game.BL.Interface;
 using Game.DL.Interface;
-using Game.Domain.Entities;
+using Game.Domain;
+using GameZone.Models;
 
 namespace Game.BL.Implement
 {
@@ -16,7 +17,7 @@ namespace Game.BL.Implement
 
         public async Task AddCategory(AddCategoryDTO categoryDTO)
         {
-           await _categoryRepositry.AddCategory(new Category { Name = categoryDTO.Name });
+           await _categoryRepositry.AddCategory(new Category  { Name = categoryDTO.Name });
         }
 
         public async Task DeleteCategory(int id)

@@ -1,39 +1,66 @@
-﻿using GameZone.Models;
+﻿using Game.BL.DTO;
+using Game.DL.Implement;
+using Game.DL.Interface;
+using GameZone.Models;
 using GameZone.Settings;
 
 namespace GameZone.Services
 {
     public class GameService : IGameService
     {
-        private readonly AppDbContext _context;
+        public readonly IGameRepositry _gameRepositry; 
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly string _imagePath;
-        public GameService(AppDbContext context, IWebHostEnvironment webHostEnvironment)
+        public GameService(IGameRepositry gameRepositry, IWebHostEnvironment webHostEnvironment)
         {
-            _context = context;
+            _gameRepositry = gameRepositry;
             _webHostEnvironment = webHostEnvironment;
             _imagePath = $"{_webHostEnvironment.WebRootPath}{FileSettings.FilePath}";
         }
 
-        public async Task<Game?> GetGame(int id)
+        public async Task<GetGameDTO?> GetGame(int id)
         {
-            return await _context.Games
-                   .Include(c=>c.Category)
-                   .Include(c=>c.Devices).
-                    ThenInclude(c=>c.Device)
-                   .SingleOrDefaultAsync(x=>x.Id==id);
+            var game=await _gameRepositry.GetGameById(id);
+            return new GetGameDTO
+            {
+                Name = game.Name,
+                CategoryName = game.Category.Name,
+                CategoryId = game.Category.Id,
+                Cover = game.Cover,
+                Devices=game.Devices.Select(p=>new DeviceDTO
+                {
+                    Id=p.Device.Id,
+                    Name=p.Device.Name,
+                    DeviceIcon=p.Device.Icon,
+                }).ToList(),
+            };
         }
 
-        public IEnumerable<Game> GetAllGames()
+        public IEnumerable<GetGameDTO> GetAllGames()
         {
-            return _context.Games.
-                Include(c=>c.Category).
-                Include(c=>c.Devices).
-                ThenInclude(c=>c.Device)
-                .AsNoTracking().ToList();
+           
+            var games = await _gameRepositry.GetGamesAsQueryable();
+
+            List<GetGameDTO> getGameDTOs = games.Select(p => new GetGameDTO
+            {
+                CategoryId = p.CategoryId,
+                Name = p.Name,
+                Description = p.Description,
+                Cover = p.Cover,
+                Devices = p.Devices.Select(d => new DeviceDTO
+                {
+                    Id = d.Device.Id,
+                    Name = d.Device.Name,
+                    DeviceIcon = d.Device.Icon
+                }).ToList()
+            }).ToList();
+
+            return getGameDTOs;
+            
+
         }
 
-        public async Task GreateGame(CreateGameFormViewModel input)
+        public async Task GreateGame(CreateGameDTO input)
         {
             var coverName =await SaveCover(input.Cover);
             Game game = new()

@@ -1,12 +1,14 @@
-﻿using GameZone.Consts;
+﻿using Game.Shared.Consts;
+using GameZone.Consts;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace GameZone.ViewModel
 {
     public class GameDTO
     {
-        [MaxLength(GameZoneConsts.MaxNameLength)]
+        [MaxLength(GameConsts.MaxNameLength)]
         public string Name { get; set; } = string.Empty;
         [Display(Name="Category Name")]
         public int CategoryId { get; set; }
