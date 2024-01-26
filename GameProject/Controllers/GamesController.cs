@@ -1,12 +1,13 @@
 ﻿using Game.BL.DTO;
 using Game.BL.Interface;
+using GameZone.Settings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameProject.Controllers
 {
     public class GamesController : Controller
     {
-        private readonly  ICategoryService _categoryService;
+        private readonly ICategoryService _categoryService;
         private readonly IDeviceService _deviceService;
         private readonly IGameService _gameService;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -16,13 +17,13 @@ namespace GameProject.Controllers
             _deviceService = deviceService;
             _gameService = gameService;
             _webHostEnvironment = webHostEnvironment;
-            _gameService.FilePath = _webHostEnvironment.WebRootPath;
+            _gameService.Initialize($"{_webHostEnvironment.WebRootPath}{FileSettings.FilePath}");
         }
         
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var game=_gameService.GetAllGames();
-            return View(game);
+            var game=await _gameService.GetAllGames();
+            return View(game.AsEnumerable());
         }
 
         [HttpGet]

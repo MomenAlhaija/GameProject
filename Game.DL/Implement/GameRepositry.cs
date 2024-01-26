@@ -14,16 +14,15 @@ namespace Game.DL.Implement
     public class GameRepositry : IGameRepositry
     {
         private readonly AppDbContext _context;
-        private readonly EFRepositry _EfRepositry;  
-        public GameRepositry(AppDbContext context,EFRepositry EFRepositry)
+        public GameRepositry(AppDbContext context)
         {
             _context = context;
-            _EfRepositry = EFRepositry; 
         }
 
         public async Task AddGame(GameEntity game)
         {
-           await _EfRepositry.Insert(game);  
+            _context.Add(game); 
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool?> DeleteGame(int id)
@@ -49,7 +48,6 @@ namespace Game.DL.Implement
                    .Include(c => c.Category)
                    .Include(c => c.Devices)
                    .ThenInclude(c => c.Device)
-                   .AsNoTracking()
                    .SingleOrDefaultAsync(x => x.Id == id);
         }
 

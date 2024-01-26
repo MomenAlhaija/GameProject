@@ -21,6 +21,8 @@ builder.Services.AddTransient<ICategoryRepositry,CategoryRepositry>();
 builder.Services.AddTransient<IEFRepositry,EFRepositry>();
 builder.Services.AddTransient<IDeviceRepositry,DeviceRepositry>();
 builder.Services.AddTransient<IDeviceService,DeviceService>();
+builder.Services.AddTransient<IGameRepositry, GameRepositry>();
+builder.Services.AddTransient<IGameService, GameService>();
 #endregion
 
 var app = builder.Build();

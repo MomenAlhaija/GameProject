@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="form-label mt-4"></label>
-                <select class="form-select" asp-for="CategoryId" asp-items="Categoryitems"
+                <select class="form-select select2 select2-container" asp-for="CategoryId" asp-items="Categoryitems"
                     data-placeholder="Select a category">
                     <option value=""></option>
                 </select>
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SelectedDevices" class="form-label mt-4"></label>
-                <select class="form-select" asp-for="SelectedDevices" asp-items="Deviceitems"
+                <select class="form-select select2 select2-container" asp-for="SelectedDevices" asp-items="Deviceitems"
                         data-placeholder="Select devices">
                     <option></option>
                 </select>

@@ -10,12 +10,11 @@ namespace Game.BL.Implement
     public class GameService : IGameService
     {
         public readonly IGameRepositry _gameRepositry;
-        public string FilePath { get; set; }
-        private readonly string _imagePath;
+        private string _imagePath;
+
         public GameService(IGameRepositry gameRepositry)
         {
             _gameRepositry = gameRepositry;
-            _imagePath = $"{FilePath}{FileSettings.FilePath}";
         }
 
         public async Task<GetGameDTO?> GetGame(int id)
@@ -27,6 +26,7 @@ namespace Game.BL.Implement
                 CategoryName = game.Category.Name,
                 CategoryId = game.Category.Id,
                 Cover = game.Cover,
+                Description = game.Description,
                 Devices=game.Devices.Select(p=>new DeviceDTO
                 {
                     Id=p.Device.Id,
@@ -87,8 +87,7 @@ namespace Game.BL.Implement
             bool isUpdate=await _gameRepositry.UpdateGame(game);
             if(isUpdate && input.Cover is not null)
                 File.Delete(Path.Combine(_imagePath, oldGameName));
-            else
-                File.Delete(Path.Combine(_imagePath, game.Cover));
+            
         }
 
 
@@ -102,15 +101,21 @@ namespace Game.BL.Implement
             };
             return isDeleted;
         }
-
+        public void Initialize(string imagePath)
+        {
+            _imagePath = imagePath;
+        }
 
         #region Private Method
-        private async Task<string> SaveCover(IFormFile cover)
+
+        public async Task<string?> SaveCover(IFormFile cover)
         {
             var coverName = $"{Guid.NewGuid()}{Path.GetExtension(cover.FileName)}";
-            var path = Path.Combine(_imagePath, coverName);
-            using var stream = File.Create(path);
-            await cover.CopyToAsync(stream);
+            var path = Path.Combine(_imagePath, coverName);           
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                cover.CopyTo(fileStream);
+            }
             return coverName;
         }
         #endregion
