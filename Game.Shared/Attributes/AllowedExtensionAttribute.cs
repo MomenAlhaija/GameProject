@@ -1,4 +1,5 @@
 ﻿using GameZone.Settings;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace GameZone.Attributes

@@ -1,5 +1,5 @@
 ﻿using Game.BL.DTO;
-using System.Web.Mvc;
+using System.Web.WebPages.Html;
 
 namespace Game.BL.Interface
 {
@@ -9,7 +9,7 @@ namespace Game.BL.Interface
         Task<DeviceDTO?> GetDeviceById(int id);
         Task AddOrEditDevice(DeviceDTO deviceDTO);
         Task DeleteDevice(int id);
-        Task<IEnumerable<SelectListItem>> GetSelectListDevices();
+        Task<List<SelectListItem>> GetSelectListDevices();
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Game.Shared.Consts;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.Web.WebPages.Html;
 
 namespace Game.BL.DTO
 {

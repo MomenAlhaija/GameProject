@@ -3,7 +3,7 @@ using Game.BL.Interface;
 using Game.DL.Interface;
 using Game.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Mvc;
+using System.Web.WebPages.Html;
 
 namespace Game.BL.Implement
 {
@@ -42,12 +42,12 @@ namespace Game.BL.Implement
             return new ViewOrAddCategoryDTO {Id=category.Id,Name=category.Name};
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetSelectListCategories()
+        public async Task<List<SelectListItem>> GetSelectListCategories()
         {
             var categories = await _categoryRepositry.GetCategoriesAsQueryable();
-            return categories.Select(c => new SelectListItem()
+            return categories!.Select(c => new SelectListItem()
             {
-                Value = c.Id.ToString(),
+                Value = c!.Id.ToString(),
                 Text = c.Name
             }).AsNoTracking().OrderBy(c => c.Text).ToList();
         }

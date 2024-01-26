@@ -43,6 +43,7 @@ namespace Game.BL.Implement
 
             List<GetGameDTO> getGameDTOs = games.Select(p => new GetGameDTO
             {
+                Id = p.Id,
                 CategoryId = p.CategoryId,
                 Name = p.Name,
                 Description = p.Description,

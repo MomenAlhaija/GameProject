@@ -5,6 +5,7 @@ namespace Game.BL.DTO
 {
     public class GetGameDTO
     {
+        public int? Id { get; set; } 
         [MaxLength(GameConsts.MaxNameLength)]
         public string Name { get; set; } = string.Empty;
         [MaxLength(GameConsts.MaxGameDescriptionLength)]

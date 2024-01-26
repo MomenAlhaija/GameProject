@@ -3,7 +3,7 @@ using Game.BL.Interface;
 using Game.DL.Interface;
 using Game.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Mvc;
+using System.Web.WebPages.Html;
 
 namespace Game.BL.Implement
 {
@@ -63,7 +63,7 @@ namespace Game.BL.Implement
             }).AsNoTracking().AsQueryable();
         }
 
-        public async Task<IEnumerable<SelectListItem>> GetSelectListDevices()
+        public async Task<List<SelectListItem>> GetSelectListDevices()
         {
             var devices =await _deviceRepositry.GetAllDevicesAsQueryable();
             return devices.Select(c => new SelectListItem()

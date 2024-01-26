@@ -9,13 +9,16 @@ namespace GameProject.Controllers
         private readonly  ICategoryService _categoryService;
         private readonly IDeviceService _deviceService;
         private readonly IGameService _gameService;
-        public GamesController(ICategoryService categoryService, IDeviceService deviceService, IGameService gameService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public GamesController(IWebHostEnvironment webHostEnvironment,ICategoryService categoryService, IDeviceService deviceService, IGameService gameService)
         {
             _categoryService = categoryService;
             _deviceService = deviceService;
             _gameService = gameService;
-
+            _webHostEnvironment = webHostEnvironment;
+            _gameService.FilePath = _webHostEnvironment.WebRootPath;
         }
+        
         public IActionResult Index()
         {
             var game=_gameService.GetAllGames();

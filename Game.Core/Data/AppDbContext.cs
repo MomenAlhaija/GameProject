@@ -1,6 +1,5 @@
 ﻿
 using Game.Domain.Entity;
-using GameZone.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
 
