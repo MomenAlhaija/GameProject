@@ -15,7 +15,6 @@ else{
         @foreach (var item in Model)
         {
             <td>@item.Name</td>
-            <td>@item.Description</td>
             <td><i class="@item.DeviceIcon me-2 fs-4"></i></td>
             <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>

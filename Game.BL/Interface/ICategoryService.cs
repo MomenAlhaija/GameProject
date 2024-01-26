@@ -1,5 +1,5 @@
 ﻿using Game.BL.DTO;
-using System.Web.WebPages.Html;
+using System.Web.Mvc;
 
 namespace Game.BL.Interface
 {

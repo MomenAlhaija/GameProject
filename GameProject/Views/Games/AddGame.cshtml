@@ -1,7 +1,21 @@
 ﻿@using GameZone.Settings;
+@using Microsoft.AspNetCore.Mvc.Rendering
 @model CreateGameDTO
 @{
     ViewData["Title"] = "Add Game"; 
+}
+@{
+    IEnumerable<SelectListItem> Categoryitems = Model.Categories.Select(item => new SelectListItem
+            {
+                Value = item.Value,
+                Text = item.Text
+            });
+    IEnumerable<SelectListItem> Deviceitems = Model.Devices.Select(item => new SelectListItem
+            {
+                Value = item.Value,
+                Text = item.Text
+            });
+
 }
 <link href="~/css/site.css" rel="stylesheet" />
 <h5> 
@@ -19,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="form-label mt-4"></label>
-                <select class="form-select" asp-for="CategoryId" asp-items="Model.Categories"
+                <select class="form-select" asp-for="CategoryId" asp-items="Categoryitems"
                     data-placeholder="Select a category">
                     <option value=""></option>
                 </select>
@@ -27,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="SelectedDevices" class="form-label mt-4"></label>
-                <select class="form-select" asp-for="SelectedDevices" asp-items="Model.Devices"
+                <select class="form-select" asp-for="SelectedDevices" asp-items="Deviceitems"
                         data-placeholder="Select devices">
                     <option></option>
                 </select>
